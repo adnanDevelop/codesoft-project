@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --yellow: #ff6c22;
+        --light-white: #d4d4d2;
+        --white: #efe8de;
+        --gray: #6a6969;
+        --black: #17181a;
+        --dark-yellow: #e1a85e;
+        --orange: #af6d3d;
+        --transition: all 0.3s ease-in-out;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: rgba(173, 216, 230, 0.483);
+        position: relative;
+      }
+
+      .calculator {
+        width: 300px;
+        height: auto;
+        background-color: var(--black);
+        border-radius: 0.4rem;
+        box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.2);
+        padding: 1rem;
+        position: relative;
+      }
+
+      .history-icon {
+        position: absolute;
+        top: 0.5rem;
+        left: 1rem;
+        cursor: pointer;
+        color: var(--light-white);
+        background-color: transparent;
+        border: none;
+      }
+
+      .history-icon i {
+        color: var(--light-white);
+        transition: var(--transition);
+      }
+
+      .history-icon:hover,
+      .history-icon:focus {
+        color: var(--yellow);
+      }
+
+      #screen {
+        display: block;
+        width: 100%;
+        padding: 1rem 0.5rem;
+        margin: 1rem 0;
+        background-color: var(--black);
+        border: none;
+        color: var(--white);
+        font-size: 1.5rem;
+        font-weight: bold;
+        border: 0.1rem solid var(--white);
+        border-radius: 0.2rem;
+      }
+
+      .buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 0.5rem;
+      }
+
+      .buttons button {
+        padding-block: 0.5rem;
+        border-radius: 0.4rem;
+        border: none;
+      }
+
+      .btn {
+        font-weight: bold;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .white-btn {
+        background-color: var(--white);
+        color: var(--black);
+      }
+
+      .equal {
+        grid-column: 1/5;
+      }
+
+      .gray-btn {
+        background-color: var(--gray);
+        color: var(--white);
+      }
+
+      .yellow-btn {
+        background-color: var(--yellow);
+        color: var(--white);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calculator">
+      <button class="history-icon copy-btn">
+        <i class="fa-solid fa-copy"></i>
+      </button>
+      <input type="text" readonly id="screen" />
+      <div class="buttons">
+        <button onclick="addFunction('7')" class="btn white-btn">7</button>
+        <button onclick="addFunction('8')" class="btn white-btn">8</button>
+        <button onclick="addFunction('9')" class="btn white-btn">9</button>
+        <button onclick="clearFunction('AC')" class="btn yellow-btn">AC</button>
+        <button onclick="addFunction('4')" class="btn gray-btn">4</button>
+        <button onclick="addFunction('5')" class="btn gray-btn">5</button>
+        <button onclick="addFunction('6')" class="btn gray-btn">6</button>
+        <button onclick="addFunction('+')" class="btn yellow-btn">+</button>
+        <button onclick="addFunction('1')" class="btn gray-btn">1</button>
+        <button onclick="addFunction('2')" class="btn gray-btn">2</button>
+        <button onclick="addFunction('3')" class="btn gray-btn">3</button>
+        <button onclick="addFunction('-')" class="btn yellow-btn">-</button>
+        <button onclick="addFunction('.')" class="btn gray-btn">.</button>
+        <button onclick="addFunction('0')" class="btn gray-btn">0</button>
+        <button onclick="addFunction('/')" class="btn gray-btn">/</button>
+        <button onclick="addFunction('*')" class="btn yellow-btn">*</button>
+        <button onclick="resultFunction('=')" class="btn equal yellow-btn">
+          =
+        </button>
+      </div>
+    </div>
+    <script>
+      let copyBtn = document.querySelector(".copy-btn");
+      let screen = document.querySelector("#screen");
+
+      // COPYING INPUT TEXT
+      copyBtn.addEventListener("click", () => {
+        screen.select();
+        window.navigator.clipboard.writeText(screen.value);
+      });
+
+      //   KEYPRESS FUNCTION
+      document.addEventListener("keypress", (event) => {
+        let button = event.key;
+        switch (button) {
+          case "Enter":
+            resultFunction();
+            break;
+          case "C":
+            clearFunction();
+            break;
+          case "0":
+          case "1":
+          case "2":
+          case "3":
+          case "4":
+          case "5":
+          case "6":
+          case "7":
+          case "8":
+          case "9":
+            addFunction(button);
+            break;
+          case "+":
+          case "-":
+          case "*":
+          case "/":
+            addFunction(button);
+        }
+      });
+
+      //   ADDING VALUE TO IN SCREEN
+      const addFunction = (value) => {
+        screen.value = screen.value + value;
+      };
+
+      //   VALUE CLEAR FUNCTION
+      const clearFunction = (value) => {
+        screen.value = "";
+      };
+
+      //   RESULT FUNCTION
+      const resultFunction = () => {
+        try {
+          screen.value = eval(screen.value);
+        } catch (error) {
+          console.log(screen.value);
+        }
+      };
+    </script>
+
+    <script
+      src="https://kit.fontawesome.com/9abcaa1c43.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
